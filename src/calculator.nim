@@ -1,15 +1,29 @@
 # calculator.nim - Basic Nim calculator module
+{.experimental: "strictFuncs".}
 
-proc add(a, b: float): float =
-    return a + b
+type
+  CalculatorError = object of ValueError
 
-proc subtract(a, b: float): float =
-    return a - b
+proc add[T: SomeNumber](a, b: T): T =
+    ## Adds two numbers.
+    result = a + b
 
-proc multiply(a, b: float): float =
-    return a * b
+proc subtract[T: SomeNumber](a, b: T): T =
+    ## Subtracts two numbers.
+    result = a - b
 
-proc divide(a, b: float): float =
+proc multiply[T: SomeNumber](a, b: T): T =
+    ## Multiplies two numbers.
+    result = a * b
+
+proc divide[T: SomeNumber](a, b: T): T =
+    ## Divides two numbers. Raises a CalculatorError if dividing by zero.
     if b == 0:
-        raise newException(ValueError, "Cannot divide by zero")
-    return a / b
+        raise newException(CalculatorError, "Cannot divide by zero")
+    result = a / b
+
+proc modulus[T: SomeInteger](a, b: T): T =
+    ## Returns the remainder of division (modulus).
+    if b == 0:
+        raise newException(CalculatorError, "Cannot perform modulus with zero")
+    result = a mod b
