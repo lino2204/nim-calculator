@@ -17,8 +17,11 @@ jobs:
 
       - name: Install Nim
         run: |
-          curl https://nim-lang.org/choosenim/init.sh -sSf | sh
+          curl https://nim-lang.org/choosenim/init.sh -sSf | sh -s -- -y
           echo "$HOME/.nimble/bin" >> $GITHUB_PATH
+
+      - name: Verify Nim Installation
+        run: nim --version
 
       - name: Run Tests
         run: |
